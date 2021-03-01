@@ -8,6 +8,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 from CreateCourt import create_court
+from getshotchart import get_shot_chart
 
      # General plot parameters
 mpl.rcParams['font.family'] = 'Avenir'
@@ -23,9 +24,27 @@ def main():
     #ax = create_court(ax, 'black')
     #plt.show()
 
-    val = input("Who are you looking for: ")
-    lbj = players.find_players_by_full_name(val)
-    print(lbj)
+    #-----------------------------------------------------------
+    #Search by name
+
+    #Get the player info
+    playername = input("Who are you looking for: ")
+    player = players.find_players_by_full_name(playername)
+    player = player[0]
+    #what season and season type
+    seasoninput = input("For what season (YYYY-YY): ")
+    seasontype = input("Regular Season or Post Season (1/2): ")
+    if (seasontype == "1"):
+        seasontype = 'Regular Season'
+    else:
+        seasontype = 'Post Season'
+
+    #get shot log for that season
+    playerstatsdf = get_shot_chart(player['id'], seasoninput, seasontype)
+    
+    #print out chart
+
+
 
 
 if __name__ == '__main__':
