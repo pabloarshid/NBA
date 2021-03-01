@@ -41,7 +41,7 @@ def main():
 
     #get shot log for that season
     playerstatsdf = get_shot_chart(player['id'], seasoninput, seasontype)
-    
+    print(playerstatsdf)
     #print out chart
 
 
