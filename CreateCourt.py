@@ -38,4 +38,5 @@ def create_court(ax, color):
     ax.set_xlim(-250, 250)
     ax.set_ylim(0, 470)
 
+    return ax
 

@@ -18,11 +18,7 @@ mpl.rcParams['axes.linewidth'] = 2
     
 
 def main():
-    # Draw basketball court
-    #fig = plt.figure(figsize=(4, 3.76))
-    #ax = fig.add_axes([0, 0, 1, 1])
-    #ax = create_court(ax, 'black')
-    #plt.show()
+   
 
     #-----------------------------------------------------------
     #Search by name
@@ -37,13 +33,23 @@ def main():
     if (seasontype == "1"):
         seasontype = 'Regular Season'
     else:
-        seasontype = 'Post Season'
+        seasontype = 'Playoffs'
 
     #get shot log for that season
-    playerstatsdf = get_shot_chart(player['id'], seasoninput, seasontype)
-    print(playerstatsdf)
+    playerdata = get_shot_chart(player['id'], seasoninput, seasontype)
+    print(playerdata)
     #print out chart
+    # Draw basketball court
+    fig = plt.figure(figsize=(8, 7.5))
+    ax = fig.add_axes([0, 0, 1, 1])
+    ax = create_court(ax, 'black')
 
+    #Draw bins for that particular season
+    # Plot hexbin of shots
+    ax.hexbin(playerdata['LOC_X'], playerdata['LOC_Y'] + 60, gridsize=(30, 30), extent=(-300, 300, 0, 940),bins='log', cmap='Blues')
+
+
+    plt.show()
 
 
 
