@@ -23,16 +23,17 @@ def get_shot_data(playerid, season, seasontype):
 	return df
 
 def getchart(player, seasonin, seastype):
-    questions = [
-    inquirer.List('charttype',
-                message="What type of chart?",
-                choices=['Hex Bin'],
-            ),
-    ]
-    charttype = inquirer.prompt(questions)
+	questions = [
+		inquirer.List('charttype',
+				message="What type of chart?",
+				choices=['Hex Bin', 'Scatter'])]
 
-    if (charttype['charttype'] == 'Hex Bin'):
-        hexbinshotsmade(player,seasonin,seastype)
+	charttype = inquirer.prompt(questions)
+	if (charttype['charttype'] == 'Hex Bin'):
+    		hexbinshotsmade(player,seasonin,seastype)
+	if (charttype['charttype'] == 'Scatter'):
+    		shotsmadeplot(player, seasonin, seastype)
+
 
 def hexbinshotsmade(player, seasonin, seastype):
     #get shot log for that season
@@ -46,3 +47,16 @@ def hexbinshotsmade(player, seasonin, seastype):
     # Plot hexbin of shots
     ax.hexbin(playerdata['LOC_X'], playerdata['LOC_Y'] + 60, gridsize=(30, 30), extent=(-300, 300, 0, 940),bins='log', cmap='Blues')
     plt.show()
+
+def shotsmadeplot(player, seasonin, seastype):
+    #get shot log for that season
+    playerdata = get_shot_data(player['id'], seasonin, seastype)
+    
+    # Draw basketball court
+    fig = plt.figure(figsize=(7, 6.5))
+    ax = fig.add_axes([0, 0, 1, 1])
+    ax = create_court(ax, 'black')
+
+    # Plot hexbin of shots
+    ax.scatter(playerdata['LOC_X'], playerdata['LOC_Y'] + 60, color='r')
+    plt.show()	
