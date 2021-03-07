@@ -7,6 +7,9 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 from CreateCourt import create_court
 
+
+
+
 def get_shot_data(playerid, season, seasontype):
 	response = shotchartdetail.ShotChartDetail(
 		team_id=0,
@@ -40,10 +43,11 @@ def hexbinshotsmade(player, seasonin, seastype):
     playerdata = get_shot_data(player['id'], seasonin, seastype)
     
     # Draw basketball court
-    fig = plt.figure(figsize=(7, 6.5))
+    fig = plt.figure(figsize=(7, 6))
+	
     ax = fig.add_axes([0, 0, 1, 1])
     ax = create_court(ax, 'black')
-
+	
     # Plot hexbin of shots
     ax.hexbin(playerdata['LOC_X'], playerdata['LOC_Y'] + 60, gridsize=(30, 30), extent=(-300, 300, 0, 940),bins='log', cmap='Blues')
     plt.show()
@@ -53,9 +57,10 @@ def shotsmadeplot(player, seasonin, seastype):
     playerdata = get_shot_data(player['id'], seasonin, seastype)
     
     # Draw basketball court
-    fig = plt.figure(figsize=(7, 6.5))
+    fig = plt.figure(figsize=(7, 6), facecolor='black')
+
     ax = fig.add_axes([0, 0, 1, 1])
-    ax = create_court(ax, 'black')
+    ax = create_court(ax, 'white')
 
     # Plot hexbin of shots
     ax.scatter(playerdata['LOC_X'], playerdata['LOC_Y'] + 60, color='r')

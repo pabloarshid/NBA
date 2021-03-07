@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 
 # Function to draw court
 def create_court(ax, color):
+    # ax.set_facecolor('black')
     # Short corner 3PT lines
     ax.plot([-220, -220], [0, 140], linewidth=2, color=color)
     ax.plot([220, 220], [0, 140], linewidth=2, color=color)
