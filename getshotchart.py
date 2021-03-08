@@ -49,7 +49,7 @@ def hexbinshotsmade(player, seasonin, seastype):
     ax = create_court(ax, 'black')
 	
     # Plot hexbin of shots
-    ax.hexbin(playerdata['LOC_X'], playerdata['LOC_Y'] + 60, gridsize=(30, 30), extent=(-300, 300, 0, 940),bins='log', cmap='Blues')
+    ax.hexbin(playerdata['LOC_X'], playerdata['LOC_Y'] + 60, gridsize=(30, 30), extent=(-300, 300, 0, 940),bins='log', cmap='Reds', facecolor='black')
     plt.show()
 
 def shotsmadeplot(player, seasonin, seastype):
