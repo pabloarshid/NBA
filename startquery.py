@@ -15,7 +15,9 @@ def startquery():
     #Get the player info
     player = getplayer()
     #what season and season type
-    seasoninput, seasontype = get_season()
+    # seasoninput, seasontype = get_season()
+    seasoninput, seasontype= get_season()
+    # print(seasoninput)
     
     #get shot log for that season
     getchart(player,seasoninput, seasontype)
@@ -25,7 +27,8 @@ def getplayer():
     playername = input("Search By Name: ")
     if (len(playername.split()) == 2):
         player = players.find_players_by_full_name(playername)
-        
+        player = player[0]
+        return player
     elif(len(playername.split()) == 1):
         ln = "Last Name?"
 
@@ -56,24 +59,61 @@ def getplayer():
           return  players.find_players_by_full_name(fname['fname'])[0]     
     else:
         return
-    player = player[0]
-    return player
+    
 
 def get_season():
     #what season and season type
-    seasoninput = input("For what season (YYYY-YY): ")
+    #First ask single season or single season over years. 
+    stattype = season_chart_type()
+    questions = [
+        inquirer.List('seasontype',
+        message="What type of Season?",
+            choices=['Regular Season', 'Pre Season', 'Playoffs', 'All Star'],
+                ),
+            ]
+    seasontype = inquirer.prompt(questions)
+    if (stattype == 'Single Season'):
+        seasonlist = []   
+        seasoninput = input("What season (YYYY-YY): ")
+        seasonlist.append(seasoninput)
+        return seasonlist, seasontype['seasontype'] 
+    else:
+        startseason = input("Start Season (YYYY-YY): ")
+        endseason = input("End Season(YYYY-YY): ")
+        seasonlist = multiple_seasons(startseason,endseason)
+        return seasonlist, seasontype['seasontype']
+    return
 
+
+
+
+def season_chart_type():
+    durationchoices = ['Single Season', 'Multiple Seasons']
     questions = [
     inquirer.List('seasontype',
-                message="What type of Season?",
-                choices=['Regular Season', 'Pre Season', 'Playoffs', 'All Star'],
+                message="Single Season or Season over Season: ",
+                choices=durationchoices,
             ),
     ]
     seasontype = inquirer.prompt(questions)
+    
+    return seasontype['seasontype']
 
-    return seasoninput, seasontype['seasontype']
+def multiple_seasons(start, end):
+    seasonlist = []
+    seasonlist.append(start)
+    splitstart = start.split("-")
+    splitend = end.split("-")
+    splitstartints = [int(item) for item in splitstart]
+    splitendints = [int(item) for item in splitend]
 
 
-
-
-
+    while(splitstartints[0] != splitendints[0]):
+        splitstartints = [item+1 for item in splitstartints]
+        if (splitstartints[1] < 10):
+            tempstr = '0' + str(splitstartints[1])
+        else:
+            tempstr = str(splitstartints[1]) 
+        tempseason = str(splitstartints[0]) + "-" + tempstr
+        seasonlist.append(tempseason)
+    return seasonlist

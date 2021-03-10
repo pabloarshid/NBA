@@ -8,8 +8,9 @@ import matplotlib.pyplot as plt
 
 
 # General plot parameters
-mpl.rcParams['font.size'] = 18
+mpl.rcParams['font.size'] = 10
 mpl.rcParams['axes.linewidth'] = 2 
+mpl.rcParams['text.color'] = 'w'
 
 from startquery import startquery
 
