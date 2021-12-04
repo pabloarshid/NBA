@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from CreateCourt import create_court
 from getshotchart import getchart
 
-  
+
 def startquery():
     #Get the player info
     player = getplayer()
@@ -18,7 +18,7 @@ def startquery():
     # seasoninput, seasontype = get_season()
     seasoninput, seasontype= get_season()
     # print(seasoninput)
-    
+
     #get shot log for that season
     getchart(player,seasoninput, seasontype)
 
@@ -56,14 +56,14 @@ def getplayer():
             playerl = players.find_players_by_full_name(lname['lname'])
             return playerl[0]
         else:
-          return  players.find_players_by_full_name(fname['fname'])[0]     
+          return  players.find_players_by_full_name(fname['fname'])[0]
     else:
         return
-    
+
 
 def get_season():
     #what season and season type
-    #First ask single season or single season over years. 
+    #First ask single season or single season over years.
     stattype = season_chart_type()
     questions = [
         inquirer.List('seasontype',
@@ -73,10 +73,10 @@ def get_season():
             ]
     seasontype = inquirer.prompt(questions)
     if (stattype == 'Single Season'):
-        seasonlist = []   
+        seasonlist = []
         seasoninput = input("What season (YYYY-YY): ")
         seasonlist.append(seasoninput)
-        return seasonlist, seasontype['seasontype'] 
+        return seasonlist, seasontype['seasontype']
     else:
         startseason = input("Start Season (YYYY-YY): ")
         endseason = input("End Season(YYYY-YY): ")
@@ -96,7 +96,7 @@ def season_chart_type():
             ),
     ]
     seasontype = inquirer.prompt(questions)
-    
+
     return seasontype['seasontype']
 
 def multiple_seasons(start, end):
@@ -113,7 +113,7 @@ def multiple_seasons(start, end):
         if (splitstartints[1] < 10):
             tempstr = '0' + str(splitstartints[1])
         else:
-            tempstr = str(splitstartints[1]) 
+            tempstr = str(splitstartints[1])
         tempseason = str(splitstartints[0]) + "-" + tempstr
         seasonlist.append(tempseason)
     return seasonlist

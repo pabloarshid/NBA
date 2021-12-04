@@ -19,9 +19,9 @@ def get_shot_data(playerid, season, seasontype):
 	results = content['resultSets'][0]
 	headers = results['headers']
 	rows = results['rowSet']
-	df = pd.DataFrame(rows)
-	df.columns = headers
-	return df
+	shotchartdf = pd.DataFrame(rows)
+	shotchartdf.columns = headers
+	return shotchartdf
 
 def getchart(player, seasonin, seastype):
 	questions = [
@@ -38,16 +38,16 @@ def chartmanager(player, seasonin, seastype, charttype):
 		if (charttype == 'Hex Bin'):
 			hexbinshotsmade(player,item,seastype)
 		elif (charttype == 'Scatter'):
-			shotsmadeplot(player, item, seastype)
+			shotsmadeplotbyshottype(player, item, seastype)
 		# elif (charttype == 'Ahead/Behind'):
 		# 	get_shot_data_aheadbehind(player,item,seastype)
-	
-			
+
+
 
 def hexbinshotsmade(player, seasonin, seastype):
 	#get shot log for that season
 	playerdata = get_shot_data(player['id'], seasonin, seastype)
-	
+
 	# Draw basketball court
 	fig = plt.figure(figsize=(7, 6))
 
@@ -68,10 +68,23 @@ def shotsmadeplot(player, seasonin, seastype):
 	ax = create_court(ax, 'white')
 	ax.set_title((player["full_name"] + ' Field Goals Made' + ' '  + str(seasonin) + ' ' + str(seastype) + ' ' + 'Scatter'), color='white')
 	# Plot hexbin of shots
-	ax.scatter(playerdata['LOC_X'], playerdata['LOC_Y'] + 60, color='r')
+	ax.scatter(playerdata['LOC_X'], playerdata['LOC_Y'] + 60, c='r')
 	plt.savefig(player["full_name"] + ' '  + str(seasonin) + ' ' + str(seastype) + ' ' + 'Scatter' + '.png')
 
-# def aheadbehingshotchart(player, seasonin, seastype):
-# 	aheadortied = get_shot_data_aheadbehind(player, seasonin, seastype) 
+def shotsmadeplotbyshottype(player, seasonin, seastype):
+	#get shot log for that season
+	playerdata = get_shot_data(player['id'], seasonin, seastype)
+	groupbyshottype = playerdata.groupby('ACTION_TYPE')
 
-# 	return
+	# Draw basketball court
+	fig = plt.figure(figsize=(7, 6), facecolor='black')
+	ax = fig.add_axes([0, 0, 1, .95])
+	ax = create_court(ax, 'white')
+	ax.set_title((player["full_name"] + ' Field Goals Made' + ' '  + str(seasonin) + ' ' + str(seastype) + ' ' + 'Scatter'), color='white')
+	# Plot hexbin of shots
+	for name, group in groupbyshottype:
+		plt.plot(group.LOC_X, group.LOC_Y + 60, marker='o',linestyle='', markersize=12, label=name)
+	plt.legend()
+
+	# ax.scatter(playerdata['LOC_X'], playerdata['LOC_Y'] + 60, c='r')
+	plt.savefig(player["full_name"] + ' '  + str(seasonin) + ' ' + str(seastype) + ' ' + 'Scatter' + '.png')
