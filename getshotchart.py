@@ -77,11 +77,12 @@ def shotsmadeplotbyshottype(player, seasonin, seastype):
 	groupbyshottype = playerdata.groupby('ACTION_TYPE')
 
 	# Draw basketball court
+	# img = plt.imread("bullscourt_15161.png")
 	fig = plt.figure(figsize=(7, 6), facecolor='black')
 	ax = fig.add_axes([0, 0, 1, .95])
-	ax = create_court(ax, 'white')
+	# ax.imshow(img, extent=[0, 0, 1, .95])
+	ax = create_court(ax, 'black')
 	ax.set_title((player["full_name"] + ' Field Goals Made' + ' '  + str(seasonin) + ' ' + str(seastype) + ' ' + 'Scatter'), color='white')
-	# Plot hexbin of shots
 	for name, group in groupbyshottype:
 		plt.plot(group.LOC_X, group.LOC_Y + 60, marker='o',linestyle='', markersize=12, label=name)
 	plt.legend()

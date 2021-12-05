@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 # Function to draw court
 def create_court(ax, color):
-    ax.set_facecolor('black')
+    ax.set_facecolor('#f1d9bf')
     # Short corner 3PT lines
     ax.plot([-220, -220], [0, 140], linewidth=2, color=color)
     ax.plot([220, 220], [0, 140], linewidth=2, color=color)
@@ -27,17 +27,16 @@ def create_court(ax, color):
 
     # Rim
     ax.add_artist(mpl.patches.Circle((0, 60), 15, facecolor='none', edgecolor=color, lw=2))
-    
+
     # Backboard
     ax.plot([-30, 30], [40, 40], linewidth=2, color=color)
 
     # Remove ticks
     ax.set_xticks([])
     ax.set_yticks([])
-        
+
     # Set axis limits
     ax.set_xlim(-250, 250)
     ax.set_ylim(0, 470)
 
     return ax
-
